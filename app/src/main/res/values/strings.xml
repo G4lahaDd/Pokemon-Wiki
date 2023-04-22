@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Pokemon Wiki</string>
+    <string name="title">Pokemons</string>
+    <string name="try_again">Try</string>
+    <string name="switch_offline">offline</string>
+    <string name="switch_online">online</string>
+    <string name="load_error">Something went wrong…\nTry again or switch to offline mode</string>
+    <string name="offline_mode">Offline mode.\nTry switch to online</string>
+    <string name="pokemon_type">Type:</string>
+    <string name="pokemon_weight">weight:</string>
+    <string name="pokemon_height">height:</string>
+    <string name="unknown">UNKNOWN</string>
+    <string name="back">Back</string>
+    <string name="title_activity_hom">HomActivity</string>
 </resources>

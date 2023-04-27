@@ -8,7 +8,9 @@
     <string name="offline_mode">Offline mode.\nTry switch to online</string>
     <string name="pokemon_type">Type:</string>
     <string name="pokemon_weight">weight:</string>
+    <string name="weight_units">kg</string>
     <string name="pokemon_height">height:</string>
+    <string name="height_units">cm</string>
     <string name="unknown">UNKNOWN</string>
     <string name="back">Back</string>
     <string name="title_activity_hom">HomActivity</string>

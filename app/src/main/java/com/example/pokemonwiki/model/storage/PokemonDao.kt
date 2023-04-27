@@ -15,7 +15,7 @@ interface PokemonDao {
 
     @Query("SELECT * FROM pokemons " +
             "WHERE id = :id")
-    suspend fun getPokemonById(id: Int) : PokemonInfoDbo?
+    suspend fun getPokemonById(id: Long) : PokemonInfoDbo?
 
     @Insert
     suspend fun addPokemon(pokemon : PokemonInfoDbo)

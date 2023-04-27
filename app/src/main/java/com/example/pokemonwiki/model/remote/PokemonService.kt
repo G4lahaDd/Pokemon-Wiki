@@ -19,7 +19,7 @@ interface PokemonService {
 
     @GET("v2/pokemon/{id}/")
     suspend fun getPokemonById(
-        @Path("id") id: Int = 0,
+        @Path("id") id: Long = 0,
     ): Response<PokemonInfoDto>
 
 }

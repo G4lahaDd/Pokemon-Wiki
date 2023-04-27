@@ -4,13 +4,17 @@ import android.content.Context
 import androidx.room.Room
 import com.example.pokemonwiki.model.remote.PokemonService
 import com.example.pokemonwiki.model.service.PokemonRepository
-import com.example.pokemonwiki.model.service.PokemonRepositoryImpl
+import com.example.pokemonwiki.model.service.paging.PokemonRepositoryImpl
 import com.example.pokemonwiki.model.storage.PokemonDao
 import com.example.pokemonwiki.model.storage.PokemonsDatabase
+import com.example.pokemonwiki.view.fragment.AboutPokemonViewModel
+import com.example.pokemonwiki.view.fragment.PokemonsViewModel
+import com.example.pokemonwiki.view.fragment.PokemonsViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import kotlinx.serialization.json.Json
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -19,6 +23,18 @@ import javax.inject.Singleton
 abstract class AppModule {
     @Binds
     abstract fun bindPokemonRepository(pokemonRepositoryImpl: PokemonRepositoryImpl): PokemonRepository
+
+    companion object{
+        @Provides
+        fun provideAboutPokemonViewModel(factory : PokemonsViewModelFactory) : AboutPokemonViewModel{
+            return factory.create(AboutPokemonViewModel::class.java)
+        }
+
+        @Provides
+        fun providePokemonsViewModel(factory : PokemonsViewModelFactory) : PokemonsViewModel{
+            return factory.create(PokemonsViewModel::class.java)
+        }
+    }
 }
 
 @Module

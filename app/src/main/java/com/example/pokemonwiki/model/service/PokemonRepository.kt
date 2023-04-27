@@ -19,14 +19,19 @@ interface PokemonRepository {
     fun tryEnableNetwork()
 
     /**
+     * try to enable network
+     */
+    fun switchToOffline()
+
+    /**
      * Get the paging list of pokemons.
      */
-    suspend fun getPagedPokemons(page: Int, size: Int): List<Pokemon>
+    fun getPagedPokemons(): Flow<PagingData<Pokemon>>
 
     /**
      * Get the pokemon by id.
      */
-    suspend fun getPokemonById(id : Int) : PokemonInfo?
+    suspend fun getPokemonById(id : Long) : PokemonInfo?
 
     companion object{
         const val DEFAULT_PAGE_SIZE : Int = 20

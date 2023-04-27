@@ -38,7 +38,7 @@ internal fun PokemonDbo.toPokemon() : Pokemon = Pokemon(
 
 internal fun PokemonDto.toPokemon() : Pokemon {
     val words = urlId?.split('/');
-    val idStr = if(words?.last()!!.isEmpty()) words[words.size.minus(1)] else words.last()
+    val idStr = if(words?.last()!!.isEmpty()) words[words.size.minus(2)] else words.last()
     var id = idStr.toLong();
     return Pokemon( id = id, name = name)
 }
@@ -68,7 +68,6 @@ private fun getBitmapByUrl(url : String?) : Bitmap?{
        BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
     }
     catch (ex: Exception) {
-        Log.i("Converter", ex.message?: "Exception with url: $url")
         null
     }
 }

@@ -24,12 +24,12 @@ class PokemonPagingSource (
         val pageIndex = params.key ?: 0
 
         try {
-            val pokemons = pokemonsSource(pageIndex, pageSize)
+            val pokemons = pokemonsSource(pageIndex, params.loadSize)
 
             return LoadResult.Page(
                 data = pokemons,
                 prevKey = if (pageIndex == 0) null else pageIndex - 1 ,
-                nextKey = if (pokemons.size == pageSize) pageIndex + 1 else null
+                nextKey = if (pokemons.size == params.loadSize) pageIndex + (params.loadSize / pageSize) else null
             )
         }catch (ex : Exception){
             return LoadResult.Error(throwable = ex);

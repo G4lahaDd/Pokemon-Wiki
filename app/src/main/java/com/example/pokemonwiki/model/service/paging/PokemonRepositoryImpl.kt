@@ -11,6 +11,7 @@ import com.example.pokemonwiki.model.Pokemon
 import com.example.pokemonwiki.model.PokemonInfo
 import com.example.pokemonwiki.model.remote.PokemonService
 import com.example.pokemonwiki.model.service.PokemonRepository
+import com.example.pokemonwiki.model.service.PokemonRepository.Companion.DEFAULT_PAGE_SIZE
 import com.example.pokemonwiki.model.service.toPokemon
 import com.example.pokemonwiki.model.service.toPokemonInfo
 import com.example.pokemonwiki.model.service.toPokemonInfoDbo
@@ -95,8 +96,9 @@ class PokemonRepositoryImpl @Inject constructor(
         return pokemon
     }
 
-    private suspend fun getPokemons(offset: Int, size: Int): List<Pokemon> =
+    private suspend fun getPokemons(pageIndex: Int, size: Int): List<Pokemon> =
         withContext(Dispatchers.IO) {
+            val offset = pageIndex * DEFAULT_PAGE_SIZE
             if (isConnected.value) {
                 val response = pokemonService.getPokemons(offset = offset, limit = size)
                 if (response.isSuccessful)

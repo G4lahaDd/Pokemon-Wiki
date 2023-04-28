@@ -30,7 +30,6 @@ import kotlinx.coroutines.launch
 class HomeActivity : AppCompatActivity(), Navigator {
 
     lateinit var binding: HomeLayoutBinding
-    lateinit var navController: NavController
     lateinit var mainFragment : Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +38,9 @@ class HomeActivity : AppCompatActivity(), Navigator {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
+            mainFragment = PokemonsFragment()
             supportFragmentManager.beginTransaction()
-                .add(R.id.navHostFragment, PokemonsFragment())
+                .add(R.id.navHostFragment, mainFragment)
                 .commit()
         }
         NavigatorInstance.navigator = this
@@ -49,7 +49,8 @@ class HomeActivity : AppCompatActivity(), Navigator {
     override fun showPokemonInfo(id : Long) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.navHostFragment, AboutPokemonFragment.newInstance(id))
+            .hide(mainFragment)
+            .add(R.id.navHostFragment, AboutPokemonFragment.newInstance(id))
             .commit()
     }
 

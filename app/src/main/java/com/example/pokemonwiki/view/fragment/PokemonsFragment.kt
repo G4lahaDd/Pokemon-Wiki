@@ -1,5 +1,6 @@
 package com.example.pokemonwiki.view.fragment
 
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.renderscript.ScriptGroup.Binding
@@ -9,10 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokemonwiki.R
 import com.example.pokemonwiki.adapter.HolderAction
 import com.example.pokemonwiki.adapter.LoadInfoStateAdapter
@@ -33,8 +37,8 @@ import kotlinx.coroutines.launch
 class PokemonsFragment : Fragment() {
 
     companion object {
-        private const val ARG_POKEMON_ID = "ARG_POKEMON_ID"
-
+        private const val ARG_POSITION = "ARG_POSITION"
+        private const val ARG_VM = "ARG_VM"
         fun newInstance() = PokemonsFragment()
     }
 
@@ -49,8 +53,17 @@ class PokemonsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPokemonsLayoutBinding.inflate(layoutInflater, container,false)
-
+        if(savedInstanceState != null){
+            val lastVisiblePosition = savedInstanceState.getInt(ARG_POSITION)
+            binding.pokemonsRecyclerView.scrollToPosition(lastVisiblePosition)
+        }
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val lastVisiblePosition = (binding.pokemonsRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        outState.putInt(ARG_POSITION, lastVisiblePosition)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,7 +74,6 @@ class PokemonsFragment : Fragment() {
         setupOfflineMode()
         navigator = NavigatorInstance.navigator
     }
-
 
     private fun setupPokemonsList() {
         adapter = PokemonsAdapter(this.requireContext(), object : PokemonListener {
@@ -75,7 +87,6 @@ class PokemonsFragment : Fragment() {
         // in case of loading errors this callback is called when you tap the 'Offline' button
         val switchOfflineModeAction: HolderAction = {
             viewModel.setOfflineMode()
-            adapter.retry()
         }
 
         val footerAdapter = LoadInfoStateAdapter(tryAgainAction,switchOfflineModeAction)
